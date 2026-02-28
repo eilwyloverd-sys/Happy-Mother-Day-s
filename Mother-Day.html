@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari Ibu Interaktif</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(135deg,#ffe6e6,#ffd6f0);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  overflow-x:hidden;
+  animation: bgMove 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove{
+  0%{background: linear-gradient(135deg,#ffe6e6,#ffd6f0);}
+  50%{background: linear-gradient(135deg,#ffd6f0,#ffe6e6);}
+  100%{background: linear-gradient(135deg,#ffe6e6,#ffd6f0);}
+}
+
+h1{ 
+  font-family:'Great Vibes',cursive; 
+  color:#b83280; 
+  font-size:32px; 
+  margin-bottom:30px; 
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.folder-container{ 
+  display:flex; 
+  gap:25px; 
+  flex-wrap:wrap; 
+  justify-content:center; 
+}
+
+.folder{ 
+  width:120px; 
+  height:120px; 
+  background:#ff9ab8; 
+  border-radius:12px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  color:white; 
+  font-weight:600; 
+  cursor:pointer; 
+  position:relative; 
+  transition:0.5s; 
+  box-shadow:0 10px 20px rgba(0,0,0,0.3); 
+  font-size:16px;
+  animation: float 3s ease-in-out infinite alternate;
+} 
+
+.folder:hover{ 
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 15px 25px rgba(0,0,0,0.4); 
+}
+
+@keyframes float{
+  0%{transform: translateY(0);}
+  50%{transform: translateY(-5px);}
+  100%{transform: translateY(0);}
+}
+
+/* Amplop full screen */
+.amplop{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background: rgba(255,240,245,0.95);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:60px;
+  transform:scale(0);
+  transition:transform 0.5s ease;
+  z-index:100;
+  overflow-y:auto;
+}
+
+.amplop.open{
+  transform:scale(1);
+  animation: pop 0.5s ease forwards;
+}
+
+@keyframes pop{
+  0%{transform: scale(0);}
+  100%{transform: scale(1);}
+}
+
+/* Amplop lancip di atas */
+.envelope{
+  width:80%;
+  height:0;
+  background:#ffb6c1;
+  clip-path: polygon(0 0, 50% 100%, 100 0);
+  transition: height 0.5s ease;
+  margin-bottom:30px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.envelope.open{
+  height:80px;
+}
+
+.surat, .photo-grid, .audio-player{
+  font-size:20px;
+  line-height:1.8;
+  color:#333;
+  text-align:center;
+  width:80%;
+  max-width:800px;
+  opacity:0;
+  transition:opacity 1s;
+}
+
+.show{
+  opacity:1;
+}
+
+/* Tombol kembali */
+.backBtn{
+  margin-top:30px;
+  padding:10px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  background:#b83280;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  display:block;
+}
+
+/* Confetti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  animation: confettiFall linear forwards;
+  z-index: 200;
+}
+
+@keyframes confettiFall{
+  0%{transform: translateY(0) rotate(0deg);}
+  100%{transform: translateY(600px) rotate(360deg);}
+}
+
+.photo-grid img{
+  width:100%;
+  border-radius:10px;
+  object-fit:cover;
+  margin-bottom:10px;
+}
+</style>
+</head>
+<body>
+<h1>Dari anakmu untuk Mama 💖</h1>
+<div class="folder-container">
+  <div class="folder" onclick="openFolder('folder1')">Surat</div>
+  <div class="folder" onclick="openFolder('folder2')">Foto</div>
+  <div class="folder" onclick="openFolder('folder3')">Musik</div>
+</div>
+
+<!-- Amplop Surat -->
+<div class="amplop" id="folder1">
+  <div class="envelope" id="envelope1"></div>
+  <div class="surat" id="surat1"></div>
+  <button class="backBtn" onclick="closeFolder()">🏠 Kembali</button>
+</div>
+
+<!-- Amplop Foto -->
+<div class="amplop" id="folder2">
+  <div class="envelope" id="envelope2"></div>
+  <div class="photo-grid" id="photo2">
+    <img src="https://via.placeholder.com/150" />
+    <img src="https://via.placeholder.com/150" />
+    <img src="https://via.placeholder.com/150" />
+  </div>
+  <button class="backBtn" onclick="closeFolder()">🏠 Kembali</button>
+</div>
+
+<!-- Amplop Musik -->
+<div class="amplop" id="folder3">
+  <div class="envelope" id="envelope3"></div>
+  <div class="audio-player" id="audio3">
+    <audio controls>
+      <source src="your-song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <button class="backBtn" onclick="closeFolder()">🏠 Kembali</button>
+</div>
+
+<script>
+function openFolder(id){
+  document.querySelectorAll('.amplop').forEach(a=>{
+    a.classList.remove('open');
+    a.querySelector('.envelope')?.classList.remove('open');
+    a.querySelector('.surat')?.classList.remove('show');
+    a.querySelector('.photo-grid')?.classList.remove('show');
+    a.querySelector('.audio-player')?.classList.remove('show');
+  });
+
+  const amplop = document.getElementById(id);
+  amplop.classList.add('open');
+
+  // Animasi amplop
+  const envelope = amplop.querySelector('.envelope');
+  setTimeout(()=> envelope.classList.add('open'),100);
+
+  // Folder1 - surat dengan huruf per huruf
+  if(id==='folder1'){
+    const surat = amplop.querySelector('.surat');
+    surat.innerHTML='';
+    surat.classList.add('show');
+
+    const text = `Mama tersayang 💖,
+
+Di hari yang istimewa ini, aku ingin mengucapkan terima kasih atas semua cinta, pengorbanan, dan kesabaranmu. Setiap langkah hidupku selalu aku rasakan bimbingan dan kasihmu yang tulus.
+
+Aku berdoa agar Tuhan memberkati hidupmu dengan kesehatan yang baik, kebahagiaan yang melimpah, dan damai sejahtera yang tak tergoyahkan. Semoga setiap hari dipenuhi dengan sukacita dan senyuman, serta setiap langkahmu dibimbing oleh kasih Tuhan.
+
+“Berikanlah kepadaku hati yang taat, dan tuntunlah aku dalam jalan-Mu, ya Tuhan.” – Mazmur 25:4-5 🙏
+
+Terima kasih atas semua pelajaran, doa, dan cinta yang tiada henti. Selamat Hari Ibu, Mama. Semoga Tuhan terus memberkatimu dan menjadikan setiap harimu indah. 🌸✨`; 
+    let i=0;
+    const typeWriter = setInterval(()=>{
+      if(i<text.length){
+        surat.innerHTML += text.charAt(i)==='\n'?'<br>':text.charAt(i);
+        i++;
+      }else{
+        clearInterval(typeWriter);
+        launchConfetti();
+      }
+    },50);
+  }
+
+  // Folder2 - foto muncul dengan efek
+  if(id==='folder2'){
+    const photos = amplop.querySelector('.photo-grid');
+    photos.classList.add('show');
+    launchConfetti();
+  }
+
+  // Folder3 - musik muncul
+  if(id==='folder3'){
+    const audio = amplop.querySelector('.audio-player');
+    audio.classList.add('show');
+    launchConfetti();
+  }
+}
+
+// Tombol kembali
+function closeFolder(){
+  document.querySelectorAll('.amplop').forEach(a=>{
+    a.classList.remove('open');
+    a.querySelector('.envelope')?.classList.remove('open');
+    a.querySelector('.surat')?.classList.remove('show');
+    a.querySelector('.photo-grid')?.classList.remove('show');
+    a.querySelector('.audio-player')?.classList.remove('show');
+  });
+}
+
+// Confetti hati & bunga
+function launchConfetti(){
+  const shapes = ['#ff69b4','#ffb6c1','#ff1493','#ffa07a','#ff69b4'];
+  for(let i=0;i<25;i++){
+    const c = document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*window.innerWidth+'px';
+    c.style.top='-10px';
+    c.style.background=shapes[Math.floor(Math.random()*shapes.length)];
+    c.style.width=(Math.random()*8+4)+'px';
+    c.style.height=c.style.width;
+    c.style.animationDuration=(Math.random()*2+2)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+</script>
+</body>
+</html>
